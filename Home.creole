@@ -1,5 +1,4 @@
 {{{
-{{{
 State
 ------
 Each party stores the following values per conversation:
