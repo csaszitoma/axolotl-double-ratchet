@@ -1,6 +1,5 @@
-
 Qs
- - How best to fit the per-message ephemeral-static in?  Should it target the recipient's identity key or ratchet key?  Currently, trying the ratchet key.
+ * How best to fit the per-message ephemeral-static in?  Should it target the recipient's identity key or ratchet key?  Currently, trying the ratchet key.
 
 {{{
 State
