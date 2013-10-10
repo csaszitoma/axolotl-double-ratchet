@@ -1,1 +1,110 @@
-Welcome to the axolotl wiki!
+{{{
+{{{
+State
+------
+Each party stores the following values per conversation:
+
+RK           : 32-byte root key which gets updated by DH ratchet
+HKs, HKr     : 32-byte header keys (send and recv versions)
+NHKs, NHKr   : 32-byte next header keys (")
+CKs, CKr     : 32-byte chain keys (used for forward-secrecy updating)
+DHIs, DHIr   : ECDH Identity keys
+DHRs, DHRr   : ECDH Ratchet keys
+Ns, Nr       : Message numbers (reset to 0 with each new ratchet)
+PNs, PNr     : Previous message numbers (msgs sent under prev ratchet)
+ratchet_flag : True if the party will send a new ratchet key in next msg
+
+
+Key Agreement
+--------------
+ - Parties exchange identity keys (A,B) and handshake keys (A0,B0)
+ - Parties assign themselves "Alice" or "Bob" roles by comparing keys
+ - Parties perform triple-DH and derive initial keys:
+Alice:
+  KDF from triple-DH: RK, HKs=<None>, HKr, NHKs, NHKr, CKs, CKr
+  DHIs, DHIr = A, B
+  DHRs, DHRr = <none>, B0
+  Ns, Nr = 0, 0
+  PNs, PNr = 0, 0
+  ratchet_flag = True
+Bob:
+  KDF from triple-DH: RK, HKr=<None>, HKs, NHKr, NHKs, CKr, CKs
+  DHIs, DHIr = B, A
+  DHRs, DHRr = B0, <none>
+  Ns, Nr = 0, 0
+  PNs, PNr = 0, 0
+  ratchet_flag = False
+
+
+Sending messages
+-----------------
+Local variables:
+  DHE : ephemeral ECDH key
+  MK  : message key
+  EHK, EMK : "ephemeralized" versions of HKs and MK
+
+if ratchet_flag:
+  DHRs = generateECDH()
+  RK = HASH(RK || ECDH(DHRs, DHRr))
+  HKs = NHKs
+  NHKs, CKs = KDF(RK)
+  PNs = Ns
+  Ns = 0
+  ratchet_flag = False
+MK = HASH(CKs || "0")
+DHE = generateECDH()
+EHK = HASH(HKs || ECDH(DHE, DHIr))
+EMK = HASH(MK || ECDH(DHE, DHIr))
+msg = DHE || Enc(EHK, Ns || PNs || DHRs) || Enc(EMK, plaintext)
+Ns = Ns + 1
+CKs = HASH(CKs || "1")
+return msg
+
+
+Receiving messages
+-------------------
+Local variables:
+  EHK, ENHK : "ephemeralized versions" of HKr, NHKr
+  Nm : Purported message number
+  PNm : Purported previous message number
+
+if (plaintext = try_skipped_header_and_message_keys()):
+  return plaintext
+DHE = read()
+EHK = HASH(HKr || ECDH(DHE, DHIs))
+ENHK = HASH(NHKr || ECDH(DHE, DHIs))
+if Dec(EHK, header):
+  Nm = read()
+  if Nr < Nm:
+    save_skipped_header_and_message_keys()
+    while Nr < Nm:
+      CKr = HASH(CKr || "1")
+      Nr += 1
+elif Dec(ENHK, header):
+  if rachet_flag:
+    raise undecryptable()
+  Nm = read()
+  PNm = read()
+  if Nr < PNm:
+    save_skipped_header_and_message_keys()
+  DHRr = read()
+  RK = HASH(RK || ECDH(DHs, DHr))
+  erase(DHs)
+  HKr = NHKr
+  NHKr, CKr = KDF(RK)
+  Nr = 0
+  if Nr < Nm:
+    save_skipped_header_and_message_keys()
+    while Nr < Nm:
+      CKr = HASH(CKr || "1")
+      Nr += 1  
+  ratchet_flag = True
+else:
+  raise undecryptable()
+MK = HASH(CKr || "0")
+EMK = HASH(MK || ECDH(DHE, DHIs))
+plaintext = Dec(EMK, ciphertext)
+Nr = Nr + 1
+CKr = HASH(CKr || "1")
+return plaintext
+}}}
