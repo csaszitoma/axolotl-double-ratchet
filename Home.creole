@@ -67,15 +67,15 @@ Local variables:
   Nm : Purported message number
   PNm : Purported previous message number
 
-if (plaintext = try_skipped_header_and_message_keys()):
-  return plaintext
 DHE = read()
+if (plaintext = try_skipped_header_and_message_keys(DHE)):
+  return plaintext
 EHK = HASH(HKr || ECDH(DHE, DHIs))
 ENHK = HASH(NHKr || ECDH(DHE, DHIs))
 if Dec(EHK, header):
   Nm = read()
   if Nr < Nm:
-    save_skipped_header_and_message_keys()
+    save_skipped_header_and_message_keys(Nr, Nm, HKr, CKr)
     while Nr < Nm:
       CKr = HASH(CKr || "1")
       Nr += 1
@@ -85,7 +85,7 @@ elif Dec(ENHK, header):
   Nm = read()
   PNm = read()
   if Nr < PNm:
-    save_skipped_header_and_message_keys()
+    save_skipped_header_and_message_keys(Nr, Nm, HKr, CKr)
   DHRr = read()
   RK = HASH(RK || ECDH(DHs, DHr))
   erase(DHs)
@@ -93,7 +93,7 @@ elif Dec(ENHK, header):
   NHKr, CKr = KDF(RK)
   Nr = 0
   if Nr < Nm:
-    save_skipped_header_and_message_keys()
+    save_skipped_header_and_message_keys(Nr, Nm, NHKr, CKr)
     while Nr < Nm:
       CKr = HASH(CKr || "1")
       Nr += 1  
