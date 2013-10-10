@@ -80,7 +80,7 @@ if Dec(EHK, header):
       CKr = HASH(CKr || "1")
       Nr += 1
 elif Dec(ENHK, header):
-  if rachet_flag:
+  if ratchet_flag:
     raise undecryptable()
   Nm = read()
   PNm = read()
