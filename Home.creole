@@ -20,14 +20,14 @@ Key Agreement
  - Parties assign themselves "Alice" or "Bob" roles by comparing keys
  - Parties perform triple-DH and derive initial keys:
 Alice:
-  KDF from triple-DH: RK, HKs=<None>, HKr, NHKs, NHKr, CKs, CKr
+  KDF from triple-DH: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
   DHIs, DHIr = A, B
   DHRs, DHRr = <none>, B0
   Ns, Nr = 0, 0
   PNs, PNr = 0, 0
   ratchet_flag = True
 Bob:
-  KDF from triple-DH: RK, HKr=<None>, HKs, NHKr, NHKs, CKr, CKs
+  KDF from triple-DH: RK, HKr=<none>, HKs, NHKr, NHKs, CKr=<none>, CKs
   DHIs, DHIr = B, A
   DHRs, DHRr = B0, <none>
   Ns, Nr = 0, 0
