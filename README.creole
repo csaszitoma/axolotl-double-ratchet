@@ -85,7 +85,7 @@ elif Dec(ENHK, header):
   Nm = read()
   PNm = read()
   if Nr < PNm:
-    save_skipped_header_and_message_keys(Nr, Nm, HKr, CKr)
+    save_skipped_header_and_message_keys(Nr, PNm, HKr, CKr)
   DHRr = read()
   RK = HASH(RK || ECDH(DHs, DHr))
   erase(DHs)
