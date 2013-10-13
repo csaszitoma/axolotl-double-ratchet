@@ -1,5 +1,5 @@
-Qs
- * How best to fit the per-message ephemeral-static in?  Should it target the recipient's identity key or ratchet key?  Currently, trying the ratchet key.
+
+WORK IN PROGRESS - SOME PROBLEM / QS REMAIN WITH ADDING IN THE PER-MESSAGE EPHEMERAL-STATIC, DON'T LOOK TOO CLOSELY...
 
 {{{
 State
