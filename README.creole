@@ -108,9 +108,8 @@ if r:
   erase(DHRs)
   DHRr = DHRp
   PNr = PNp
-  Nr = Np
   ratchet_flag = True
-CKr = HASH(CKr || "1")
-Nr = Nr + 1
+Nr = Np + 1
+CKr = HASH(CKp || "1")
 return plaintext
 }}}
