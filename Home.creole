@@ -77,7 +77,6 @@ if Dec(HKr, header):
   CKp = CKr
   stage_skipped_header_and_message_keys(HKr, Nr, Np, CKp)
   r = False
-
 elif Dec(NHKr, header):
   if ratchet_flag:
     raise undecryptable()
@@ -90,7 +89,6 @@ elif Dec(NHKr, header):
   NHKp, CKp = KDF(RKp)
   stage_skipped_header_and_message_keys(HKp, 0, Np, CKp)
   r = True
-
 else:
   raise undecryptable()
 
