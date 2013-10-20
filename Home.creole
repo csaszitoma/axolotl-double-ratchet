@@ -1,4 +1,3 @@
-
 WORK IN PROGRESS - SOME PROBLEM / QS REMAIN WITH ADDING IN THE PER-MESSAGE EPHEMERAL-STATIC, DON'T LOOK TOO CLOSELY...
 
 {{{
@@ -19,20 +18,20 @@ ratchet_flag : True if the party will send a new ratchet key in next msg
 
 Key Agreement
 --------------
- - Parties exchange identity keys (A,B) and handshake keys (A0,B0)
+ - Parties exchange identity keys (A,B) and handshake keys (A0,A1) and (B0,B1)
  - Parties assign themselves "Alice" or "Bob" roles by comparing keys
- - Parties perform triple-DH and derive initial keys:
+ - Parties perform triple-DH with (A,B,A0,B0) and derive initial keys:
 Alice:
   KDF from triple-DH: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
   DHIs, DHIr = A, B
-  DHRs, DHRr = <none>, B0
+  DHRs, DHRr = <none>, B1
   Ns, Nr = 0, 0
   PNs, PNr = 0, 0
   ratchet_flag = True
 Bob:
   KDF from triple-DH: RK, HKr=<none>, HKs, NHKr, NHKs, CKr=<none>, CKs
   DHIs, DHIr = B, A
-  DHRs, DHRr = B0, <none>
+  DHRs, DHRr = B1, <none>
   Ns, Nr = 0, 0
   PNs, PNr = 0, 0
   ratchet_flag = False
@@ -41,9 +40,7 @@ Bob:
 Sending messages
 -----------------
 Local variables:
-  DHE : ephemeral ECDH key
   MK  : message key
-  EMK : "ephemeralized" version of MK
 
 if ratchet_flag:
   DHRs = generateECDH()
@@ -53,10 +50,8 @@ if ratchet_flag:
   PNs = Ns
   Ns = 0
   ratchet_flag = False
-DHE = generateECDH()
 MK = HASH(CKs || "0")
-EMK = HASH(MK || ECDH(DHE, DHRr))
-msg = Enc(HKs, Ns || PNs || DHRs || DHE) || Enc(EMK, plaintext)
+msg = Enc(HKs, Ns || PNs || DHRs) || Enc(MK, plaintext)
 Ns = Ns + 1
 CKs = HASH(CKs || "1")
 return msg
@@ -65,43 +60,60 @@ return msg
 Receiving messages
 -------------------
 Local variables:
-  Nm : Purported message number
-  PNm : Purported previous message number  
+  i   : loop counter
+  r   : flag (True if DH ratchet was advanced)
+  MK  : message key
+  Np  : Purported message number
+  PNp : Purported previous message number
+  CKp : Purported new chain key
+  DHp : Purported new DHr
+  RKp : Purported new root key
+  NHKp, HKp : Purported new header keys
 
+# Try saved keys
 if (plaintext = try_skipped_header_and_message_keys()):
   return plaintext
-if Dec(HK, header):
-  Nm = read()
-  if Nr < Nm:
-    save_skipped_header_and_message_keys(Nr, Nm, DHRs, HKr, CKr)
-    while Nr < Nm:
-      CKr = HASH(CKr || "1")
-      Nr += 1
-elif Dec(NHK, header):
+
+# Decrypt header
+if Dec(HKr, header):
+  Np = read()
+  CKp = CKr
+  stage_skipped_header_and_message_keys(HKr, Nr, Np, CKp)
+  r = False
+
+elif Dec(NHKr, header):
   if ratchet_flag:
     raise undecryptable()
-  Nm = read()
-  PNm = read()
-  if Nr < PNm:
-    save_skipped_header_and_message_keys(Nr, PNm, DHRs, HKr, CKr)
-  DHRr = read()
-  RK = HASH(RK || ECDH(DHs, DHr))
-  erase(DHs)
-  HKr = NHKr
-  NHKr, CKr = KDF(RK)
-  Nr = 0
-  if Nr < Nm:
-    save_skipped_header_and_message_keys(Nr, Nm, DHRs, NHKr, CKr)
-    while Nr < Nm:
-      CKr = HASH(CKr || "1")
-      Nr += 1  
-  ratchet_flag = True
+  Np = read()
+  PNp = read()
+  DHRp = read()
+  stage_skipped_header_and_message_keys(HKr, Nr, PNp, CKp)
+  RKp = HASH(RK || ECDH(DHRp, DHRs))
+  HKp = NHKr
+  NHKp, CKp = KDF(RKp)
+  stage_skipped_header_and_message_keys(HKp, 0, Np, CKp)
+  r = True
+
 else:
   raise undecryptable()
-MK = HASH(CKr || "0")
-EMK = HASH(MK || ECDH(DHE, DHRs))
-plaintext = Dec(EMK, ciphertext)
-Nr = Nr + 1
+
+# Decrypt body
+MK = HASH(CKp || "0")
+if (!plaintext = Dec(MK, ciphertext)):
+  raise undecryptable()
+
+# Update state
+commit_skipped_header_and_message_keys()
+if f:
+  RK = RKp
+  HKr = HKp
+  NHKr = NHKp
+  erase(DHRs)
+  DHRr = DHRp
+  PNr = PNp
+  Nr = Np
+  ratchet_flag = True
 CKr = HASH(CKr || "1")
+Nr = Nr + 1
 return plaintext
 }}}
