@@ -1,4 +1,3 @@
-
 {{{
 State
 ------
@@ -59,7 +58,6 @@ return msg
 Receiving messages
 -------------------
 Local variables:
-  i   : loop counter
   r   : flag (True if DH ratchet was advanced)
   MK  : message key
   Np  : Purported message number
@@ -103,7 +101,7 @@ if (!plaintext = Dec(MK, ciphertext)):
 
 # Update state
 commit_skipped_header_and_message_keys()
-if f:
+if r:
   RK = RKp
   HKr = HKp
   NHKr = NHKp
