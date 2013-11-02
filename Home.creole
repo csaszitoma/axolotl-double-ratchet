@@ -17,7 +17,7 @@ ratchet_flag : True if the party will send a new ratchet key in next msg
 Key Agreement
 --------------
  - Parties exchange identity keys (A,B) and handshake keys (A0,A1) and (B0,B1)
- - Parties assign themselves "Alice" or "Bob" roles by comparing keys
+ - Parties assign themselves "Alice" or "Bob" roles by comparing public keys
  - Parties perform triple-DH with (A,B,A0,B0) and derive initial keys:
 Alice:
   KDF from triple-DH: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
