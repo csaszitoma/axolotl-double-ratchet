@@ -10,7 +10,7 @@ CKs, CKr     : 32-byte chain keys (used for forward-secrecy updating)
 DHIs, DHIr   : ECDH Identity keys
 DHRs, DHRr   : ECDH Ratchet keys
 Ns, Nr       : Message numbers (reset to 0 with each new ratchet)
-PNs, PNr     : Previous message numbers (# of msgs sent under prev ratchet)
+PNs          : Previous message numbers (# of msgs sent under prev ratchet)
 ratchet_flag : True if the party will send a new ratchet key in next msg
 
 
@@ -24,14 +24,14 @@ Alice:
   DHIs, DHIr = A, B
   DHRs, DHRr = <none>, B1
   Ns, Nr = 0, 0
-  PNs, PNr = 0, 0
+  PNs = 0
   ratchet_flag = True
 Bob:
   KDF from triple-DH: RK, HKr=<none>, HKs, NHKr, NHKs, CKr=<none>, CKs
   DHIs, DHIr = B, A
   DHRs, DHRr = B1, <none>
   Ns, Nr = 0, 0
-  PNs, PNr = 0, 0
+  PNs = 0
   ratchet_flag = False
 
 
@@ -105,7 +105,6 @@ if r:
   NHKr = NHKp
   erase(DHRs)
   DHRr = DHRp
-  PNr = PNp
   ratchet_flag = True
 Nr = Np + 1
 CKr = HASH(CKp || "1")
