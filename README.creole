@@ -116,3 +116,12 @@ Nr = Np + 1
 CKr = HASH(CKp || "1")
 return plaintext
 }}}
+
+=== IPR
+
+The Axolotl specification (this wiki) is hereby placed in the public domain.
+
+=== Acknowledgements
+
+Joint work with Moxie Marlinspike.  Thanks to Adam Langley for feedback.
+
