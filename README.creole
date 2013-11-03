@@ -1,3 +1,10 @@
+
+=== Goals
+* Combine the forward-secrecy of symmetric-key updating with the "future-secrecy" of an OTR-like Diffie-Hellman ratchet
+* Detect replay / reorder / deletion of messages
+* Allow decryption of out-of-order (e.g. delayed) messages with minimal reduction in forward secrecy
+* Don't leak metadata such as identities or sequence numbers
+
 {{{
 State
 ------
