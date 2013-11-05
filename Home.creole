@@ -112,5 +112,5 @@ The Axolotl specification (this wiki) is hereby placed in the public domain.
 
 === Acknowledgements
 
-Joint work with Moxie Marlinspike.  Thanks to Adam Langley for discussion and improving the decryption code.
+Joint work with Moxie Marlinspike.  Thanks to Adam Langley for discussion and improving the receiving algorithm.
 
