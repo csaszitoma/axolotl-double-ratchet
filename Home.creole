@@ -65,7 +65,6 @@ return msg
 Receiving messages
 -------------------
 Local variables:
-  r   : flag (True if DH ratchet was advanced)
   MK  : message key
   Np  : Purported message number
   PNp : Purported previous message number
@@ -74,48 +73,37 @@ Local variables:
   RKp : Purported new root key
   NHKp, HKp : Purported new header keys
 
-# Try saved keys
 if (plaintext = try_skipped_header_and_message_keys()):
   return plaintext
 
-# Decrypt header
-if Dec(HKr, header):
+if HKr != <none> and Dec(HKr, header):
   Np = read()
-  CKp = CKr
-  stage_skipped_header_and_message_keys(HKr, Nr, Np, CKp)
-  r = False
-elif Dec(NHKr, header):
-  if ratchet_flag:
+  CKp, MK = stage_skipped_header_and_message_keys(HKr, Nr, Np, CKr)
+  if not Dec(MK, ciphertext):
+    raise undecryptable
+else:
+  if ratchet_flag or not Dec(NHKr, header):
     raise undecryptable()
   Np = read()
   PNp = read()
   DHRp = read()
-  stage_skipped_header_and_message_keys(HKr, Nr, PNp, CKp)
+  stage_skipped_header_and_message_keys(HKr, Nr, PNp, CKr)
   RKp = HASH(RK || ECDH(DHRp, DHRs))
   HKp = NHKr
   NHKp, CKp = KDF(RKp)
-  stage_skipped_header_and_message_keys(HKp, 0, Np, CKp)
-  r = True
-else:
-  raise undecryptable()
-
-# Decrypt body
-MK = HASH(CKp || "0")
-if (!plaintext = Dec(MK, ciphertext)):
-  raise undecryptable()
-
-# Update state
-commit_skipped_header_and_message_keys()
-if r:
+  CKp, MK = stage_skipped_header_and_message_keys(HKp, 0, Np, CKp)
+  if not Dec(MK, ciphertext):
+    raise undecryptable()
   RK = RKp
   HKr = HKp
   NHKr = NHKp
-  erase(DHRs)
   DHRr = DHRp
+  erase(DHRs)
   ratchet_flag = True
+commit_skipped_header_and_message_keys()
 Nr = Np + 1
-CKr = HASH(CKp || "1")
-return plaintext
+CKr = CKp
+return read()
 }}}
 
 === IPR
