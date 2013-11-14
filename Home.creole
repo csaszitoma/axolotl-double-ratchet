@@ -1,5 +1,5 @@
 === Goals
-* Combine the forward-secrecy of symmetric-key updating with the "future-secrecy" of an OTR-like Diffie-Hellman ratchet
+* Combine the forward-secrecy of symmetric-key updating with the "future-secrecy" of an OTR-like Diffie-Hellman ratchet.  (By "future-secrecy" we mean that a point-in-time compromise of key material by an otherwise passive attacker will be "healed" by the introduction of new ECDH keys.)
 * Improve on OTR's future-secrecy with a "2-step" ratchet (instead of "3-step")
 * Detect replay / reorder / deletion of messages
 * Allow decryption of out-of-order (delayed) messages with minimal reduction in forward secrecy
