@@ -80,7 +80,8 @@ Helper functions:
   (if any) in a staging area where they can later be committed, along with their associated 
   header key.  Returns the chain key and message key corresponding to the future message number.
 
-  commit_skipped_header_and_message_keys() : Commits any skipped-over message keys from the staging area to persistent storage (along with their associated header keys).
+  commit_skipped_header_and_message_keys() : Commits any skipped-over message keys from the 
+  staging area to persistent storage (along with their associated header keys).
 
 if (plaintext = try_skipped_header_and_message_keys()):
   return plaintext
