@@ -20,6 +20,9 @@ DHRs, DHRr   : ECDH Ratchet keys
 Ns, Nr       : Message numbers (reset to 0 with each new ratchet)
 PNs          : Previous message numbers (# of msgs sent under prev ratchet)
 ratchet_flag : True if the party will send a new ratchet key in next msg
+skipped_HK_MK : A list of stored message keys and their associated header keys
+                for "skipped" messages, i.e. messages that have not been
+                received despite the reception of more recent messages.
 
 
 Key Agreement
