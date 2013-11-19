@@ -57,7 +57,7 @@ if ratchet_flag:
   DHRs = generateECDH()
   RK = HASH(RK || ECDH(DHRs, DHRr))
   HKs = NHKs
-  NHKs, CKs = KDF(RK)
+  RK, NHKs, CKs = KDF(RK)
   PNs = Ns
   Ns = 0
   ratchet_flag = False
@@ -108,7 +108,7 @@ else:
   stage_skipped_header_and_message_keys(HKr, Nr, PNp, CKr)
   RKp = HASH(RK || ECDH(DHRp, DHRs))
   HKp = NHKr
-  NHKp, CKp = KDF(RKp)
+  RKp, NHKp, CKp = KDF(RKp)
   CKp, MK = stage_skipped_header_and_message_keys(HKp, 0, Np, CKp)
   if not Dec(MK, ciphertext):
     raise undecryptable()
