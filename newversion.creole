@@ -32,17 +32,19 @@ Key Agreement
  - Parties assign themselves "Alice" or "Bob" roles by comparing public keys
  - Parties perform triple-DH with (A,B,Ah,Bh) and derive initial keys:
 Alice:
-  KDF from triple-DH: RK, HKs=<none>, HKr, NHKs, NHKr, CKs, CKr
+  KDF from triple-DH: RK, HKs, HKr, NHKs, NHKr, CKs, CKr
   DHIs, DHIr = A, B
   DHRs, DHRr = <none>, Bi
   Ns, Nr = 0, 0
   PNs = 0
+  bobs_first_message = False
 Bob:
-  KDF from triple-DH: RK, HKr=<none>, HKs, NHKr, NHKs, CKr, CKs
+  KDF from triple-DH: RK, HKr, HKs, NHKr, NHKs, CKr, CKs
   DHIs, DHIr = B, A
   DHRs, DHRr = Bi, <none>
   Ns, Nr = 0, 0
   PNs = 0
+  bobs_first_message = True
 
 
 Sending messages
