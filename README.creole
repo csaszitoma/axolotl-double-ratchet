@@ -55,9 +55,8 @@ Local variables:
 
 if ratchet_flag:
   DHRs = generateECDH()
-  RK = HASH(RK || ECDH(DHRs, DHRr))
   HKs = NHKs
-  RK, NHKs, CKs = KDF(RK)
+  RK, NHKs, CKs = KDF(RK || ECDH(DHRs, DHRr))
   PNs = Ns
   Ns = 0
   ratchet_flag = False
@@ -106,9 +105,8 @@ else:
   PNp = read()
   DHRp = read()
   stage_skipped_header_and_message_keys(HKr, Nr, PNp, CKr)
-  RKp = HASH(RK || ECDH(DHRp, DHRs))
   HKp = NHKr
-  RKp, NHKp, CKp = KDF(RKp)
+  RKp, NHKp, CKp = KDF(RK || ECDH(DHRp, DHRs))
   CKp, MK = stage_skipped_header_and_message_keys(HKp, 0, Np, CKp)
   if not Dec(MK, ciphertext):
     raise undecryptable()
