@@ -102,9 +102,7 @@ if Dec(HKr, header):
 else:
   if not Dec(NHKr, header):
     raise undecryptable()
-  Np = read()
-  PNp = read()
-  DHRp = read()
+  Np, PNp, DHRp = read()
   stage_skipped_header_and_message_keys(HKr, Nr, PNp, CKr)
   RKp = HASH(RK || ECDH(DHRs, DHRr))
   HKp = NHKr
