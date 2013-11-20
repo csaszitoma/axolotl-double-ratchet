@@ -31,7 +31,6 @@ Key Agreement
 --------------
  - Parties exchange identity keys (A,B) and handshake keys (A0,A1) and (B0,B1)
  - Parties assign themselves "Alice" or "Bob" roles by comparing public keys
- - Parties perform triple-DH with (A,B,A0,B0) and derive initial keys:
  - Parties calculate master key using tripleDH:
    - master_key = ECDH(A,B0) || ECDH(A0,B) || ECDH(A0,B0)
 
