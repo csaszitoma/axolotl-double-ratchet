@@ -32,8 +32,11 @@ Key Agreement
  - Parties exchange identity keys (A,B) and handshake keys (A0,A1) and (B0,B1)
  - Parties assign themselves "Alice" or "Bob" roles by comparing public keys
  - Parties perform triple-DH with (A,B,A0,B0) and derive initial keys:
+ - Parties calculate master key using tripleDH:
+   - master_key = ECDH(A,B0) || ECDH(A0,B) || ECDH(A0,B0)
+
 Alice:
-  KDF from triple-DH: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
+  KDF from master_key: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
   DHIs, DHIr = A, B
   DHRs, DHRr = <none>, B1
   Ns, Nr = 0, 0
