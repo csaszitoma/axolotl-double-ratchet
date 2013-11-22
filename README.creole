@@ -44,7 +44,7 @@ Alice:
   PNs = 0
   ratchet_flag = True
 Bob:
-  KDF from triple-DH: RK, HKr=<none>, HKs, NHKr, NHKs, CKr=<none>, CKs
+  KDF from master_key: RK, HKr=<none>, HKs, NHKr, NHKs, CKr=<none>, CKs
   DHIs, DHIr = B, A
   DHRs, DHRr = B1, <none>
   Ns, Nr = 0, 0
