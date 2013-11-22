@@ -7,6 +7,7 @@
 * Allow decryption of out-of-order (delayed) messages with minimal reduction in forward secrecy.
 * Don't leak metadata in cleartext (such as identities or sequence numbers).
 
+=== Algorithm
 {{{
 State
 ------
