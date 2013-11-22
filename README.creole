@@ -59,14 +59,14 @@ Local variables:
 if ratchet_flag:
   DHRs = generateECDH()
   HKs = NHKs
-  RK, NHKs, CKs = KDF(RK || ECDH(DHRs, DHRr))
+  RK, NHKs, CKs = KDF( HMAC-HASH(RK, ECDH(DHRs, DHRr)) )
   PNs = Ns
   Ns = 0
   ratchet_flag = False
-MK = HASH(CKs || "0")
+MK = HMAC-HASH(CKs, "0")
 msg = Enc(HKs, Ns || PNs || DHRs) || Enc(MK, plaintext)
 Ns = Ns + 1
-CKs = HASH(CKs || "1")
+CKs = HMAC-HASH(CKs, "1")
 return msg
 
 
@@ -109,7 +109,7 @@ else:
   DHRp = read()
   stage_skipped_header_and_message_keys(HKr, Nr, PNp, CKr)
   HKp = NHKr
-  RKp, NHKp, CKp = KDF(RK || ECDH(DHRp, DHRs))
+  RKp, NHKp, CKp = KDF( HMAC-HASH(RK, ECDH(DHRp, DHRs)) )
   CKp, MK = stage_skipped_header_and_message_keys(HKp, 0, Np, CKp)
   if not Dec(MK, ciphertext):
     raise undecryptable()
