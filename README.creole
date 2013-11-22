@@ -3,9 +3,9 @@
 ** By "future-secrecy" we mean that a point-in-time leak of secret keys to a passive eavesdropper will be healed by the introduction of new ECDH ratchet keys.
 * Improve on OTR's future-secrecy with a "2-step" ratchet instead of "3-step".
 ** I.e. each new ECDH ratchet key is used in a "send/receive" pattern, instead of "advertise/receive/send".
-* Detect replay / reorder / deletion of messages
-* Allow decryption of out-of-order (delayed) messages with minimal reduction in forward secrecy
-* Don't leak metadata in cleartext (such as identities or sequence numbers)
+* Detect replay / reorder / deletion of messages.
+* Allow decryption of out-of-order (delayed) messages with minimal reduction in forward secrecy.
+* Don't leak metadata in cleartext (such as identities or sequence numbers).
 
 {{{
 State
