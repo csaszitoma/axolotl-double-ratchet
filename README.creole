@@ -1,7 +1,8 @@
 === Goals
 * Combine the forward-secrecy of symmetric-key updating with the "future-secrecy" of an OTR-like Diffie-Hellman ratchet.
-** By "future-secrecy" we mean that a point-in-time leak of secret keys to a passive eavesdropper will be "healed" by the introduction of new ECDH keys.
-* Improve on OTR's future-secrecy with a "2-step" ratchet (instead of "3-step")
+** By "future-secrecy" we mean that a point-in-time leak of secret keys to a passive eavesdropper will be healed by the introduction of new ECDH keys.
+* Improve on OTR's future-secrecy with a "2-step".
+** I.e. each new ECDH key is used in a "send/receive" pattern, instead of "advertise/receive/send".
 * Detect replay / reorder / deletion of messages
 * Allow decryption of out-of-order (delayed) messages with minimal reduction in forward secrecy
 * Don't leak metadata in cleartext (such as identities or sequence numbers)
@@ -32,7 +33,7 @@ Key Agreement
  - Parties exchange identity keys (A,B) and handshake keys (A0,A1) and (B0,B1)
  - Parties assign themselves "Alice" or "Bob" roles by comparing public keys
  - Parties calculate master key using tripleDH:
-   - master_key = ECDH(A,B0) || ECDH(A0,B) || ECDH(A0,B0)
+   - master_key = HASH( ECDH(A,B0) || ECDH(A0,B) || ECDH(A0,B0) )
 
 Alice:
   KDF from master_key: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
@@ -123,6 +124,9 @@ Nr = Np + 1
 CKr = CKp
 return read()
 }}}
+
+=== Variations
+ * Header encryption and header keys may be omitted if the underlying transport is already leaking metadata, and space is at a premium.  In that case, the presence of a new ratchet key is used to signal to the recipient that the DH ratchet is advancing (instead of using encryption by the next header key as the signal).
 
 === IPR
 
