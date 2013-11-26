@@ -31,10 +31,10 @@ skipped_HK_MK : A list of stored message keys and their associated header keys
 
 Key Agreement
 --------------
- - Parties exchange identity keys (A,B) and handshake keys (A0,A1) and (B0,B1)
+ - Parties exchange identity keys (A, B) and handshake keys (A0, A1) and (B0, B1)
  - Parties assign themselves "Alice" or "Bob" roles by comparing public keys
  - Parties calculate master key using tripleDH:
-   - master_key = HASH( DH(A,B0) || DH(A0,B) || DH(A0,B0) )
+   - master_key = HASH( DH(A, B0) || DH(A0, B) || DH(A0, B0) )
 
 Alice:
   KDF from master_key: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
