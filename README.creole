@@ -133,7 +133,7 @@ return read()
  * Depending on how the key agreement is performed, it may be possible to omit the A1 and/or B1 keys.
  ** If a party knows she is the initiator (Alice) prior to sending her key agreement message, then she doesn't need to send the extra (A1) key, as it is unused.
  ** If Bob doesn't plan to send any messages prior to receiving Alice's first message, B1 can be omitted and both parties can set B1 equal to B0 with no loss of security.
- * The chain keys could be updated on a time basis as well as a per-message basis (e.g., if 24 hours elapse without receiving a message, move to the next chain key anyways, as there may be an intercepted message you're unaware of).
+ * The chain keys could be updated on a time basis as well as a per-message basis.  For example: If 24 hours elapse without receiving a message, you might wish to move to the next chain key anyways, in case there's an intercepted message you're unaware of.
 
 === IPR
 
