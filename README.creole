@@ -127,7 +127,7 @@ return read()
 }}}
 
 === Variations
- * Header encryption and header keys may be omitted if the underlying transport is already leaking metadata, and space is at a premium.
+ * Header encryption may be omitted if the underlying transport is already leaking metadata, and space is at a premium.
  ** In that case, the presence of a new ratchet key signals the recipient that the DH ratchet is advancing (instead of using encryption by the next header key as the signal).  
  ** Instead of storing old header keys for skipped messages, old ratchet public keys can be stored and used to recognize delayed messages.
  * Depending on how the key agreement is performed, it may be possible to omit the A1 and/or B1 keys.
