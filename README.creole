@@ -143,6 +143,6 @@ The Axolotl specification (this wiki) is hereby placed in the public domain.
 
 Joint work with Moxie Marlinspike.  
 
-Thanks to Michael Rogers and Adam Back for mailing list discussions.  In particular, Michael proposed updating keys on a time basis, in addition to a per-message basis.  Adam proposed separating message keys from chain keys.
+Thanks to Michael Rogers and Adam Back for mailing list discussions.  Adam proposed separating message keys from chain keys.  Michael proposed updating keys on a time basis, in addition to a per-message basis.  
 
 Thanks to Adam Langley for discussion and improving the receiving algorithm.  
