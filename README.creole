@@ -142,7 +142,7 @@ The Axolotl specification (this wiki) is hereby placed in the public domain.
 
 === Feedback
 
-Can be sent to axolotl@trevp.net
+Can be sent to axolotl at trevp.net
 
 === Acknowledgements
 
