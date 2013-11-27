@@ -140,7 +140,7 @@ return read()
 
 The Axolotl specification (this wiki) is hereby placed in the public domain.
 
-== Feedback
+=== Feedback
 
 Can be sent to axolotl@trevp.net
 
