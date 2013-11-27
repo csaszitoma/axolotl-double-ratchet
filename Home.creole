@@ -140,6 +140,10 @@ return read()
 
 The Axolotl specification (this wiki) is hereby placed in the public domain.
 
+== Feedback
+
+Can be sent to axolotl@trevp.net
+
 === Acknowledgements
 
 Joint work with Moxie Marlinspike.  
