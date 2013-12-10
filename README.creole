@@ -1,4 +1,4 @@
-= The Axolotl Ratchet
+= Axolotl Ratchet
 
 === Goals
 * Combine the forward-secrecy of symmetric-key updating with the "future-secrecy" of an OTR-like Diffie-Hellman ratchet.
