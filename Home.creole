@@ -85,16 +85,21 @@ Local variables:
   NHKp, HKp : Purported new header keys
 
 Helper functions:
-  try_skipped_header_and_message_keys() : Attempt to decrypt the message with skipped-over 
-  message keys (and their associated header keys) from persistent storage.
+  try_skipped_header_and_message_keys() : Attempt to decrypt the message
+  with skipped-over message keys (and their associated header keys) from
+  persistent storage.
 
-  stage_skipped_header_and_message_keys() : Given a current header key, a current message number, 
-  a future message number, and a chain key, calculates and stores all skipped-over message keys
-  (if any) in a staging area where they can later be committed, along with their associated 
-  header key.  Returns the chain key and message key corresponding to the future message number.
+  stage_skipped_header_and_message_keys() : Given a current header key,
+  a current message number, a future message number, and a chain key,
+  calculates and stores all skipped-over message keys (if any) in a
+  staging area where they can later be committed, along with their
+  associated header key.  Returns the chain key and message key
+  corresponding to the future message number.  If passed a chain key
+  with value <none, this function does nothing.
 
-  commit_skipped_header_and_message_keys() : Commits any skipped-over message keys from the 
-  staging area to persistent storage (along with their associated header keys).
+  commit_skipped_header_and_message_keys() : Commits any skipped-over
+  message keys from the staging area to persistent storage (along 
+  with their associated header keys).
 
 if (plaintext = try_skipped_header_and_message_keys()):
   return plaintext
