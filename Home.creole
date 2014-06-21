@@ -95,7 +95,7 @@ Helper functions:
   staging area where they can later be committed, along with their
   associated header key.  Returns the chain key and message key
   corresponding to the future message number.  If passed a chain key
-  with value <none, this function does nothing.
+  with value <none>, this function does nothing.
 
   commit_skipped_header_and_message_keys() : Commits any skipped-over
   message keys from the staging area to persistent storage (along 
