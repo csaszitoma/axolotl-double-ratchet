@@ -15,15 +15,15 @@ State
 ------
 Each party stores the following values per conversation in persistent storage:
 
-RK           : 32-byte root key which gets updated by DH ratchet
-HKs, HKr     : 32-byte header keys (send and recv versions)
-NHKs, NHKr   : 32-byte next header keys (")
-CKs, CKr     : 32-byte chain keys (used for forward-secrecy updating)
-DHIs, DHIr   : DH or ECDH Identity keys
-DHRs, DHRr   : DH or ECDH Ratchet keys
-Ns, Nr       : Message numbers (reset to 0 with each new ratchet)
-PNs          : Previous message numbers (# of msgs sent under prev ratchet)
-ratchet_flag : True if the party will send a new DH ratchet key in next msg
+RK         : 32-byte root key which gets updated by DH ratchet
+HKs, HKr   : 32-byte header keys (send and recv versions)
+NHKs, NHKr : 32-byte next header keys (")
+CKs, CKr   : 32-byte chain keys (used for forward-secrecy updating)
+DHIs, DHIr : DH or ECDH Identity keys
+DHRs, DHRr : DH or ECDH Ratchet keys
+Ns, Nr     : Message numbers (reset to 0 with each new ratchet)
+PNs        : Previous message numbers (# of msgs sent under prev ratchet)
+ratchet_flag  : True if the party will send a new DH ratchet key in next msg
 skipped_HK_MK : A list of stored message keys and their associated header keys
                 for "skipped" messages, i.e. messages that have not been
                 received despite the reception of more recent messages.
