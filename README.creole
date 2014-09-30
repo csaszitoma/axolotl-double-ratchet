@@ -27,8 +27,8 @@ ratchet_flag  : True if the party will send a new ratchet key in next msg
 skipped_HK_MK : A list of stored message keys and associated header keys
                 for "skipped" messages, i.e. messages that have not been
                 received despite the reception of more recent messages.
-                Entries may be stored with a timestamp, and deleted after a
-                certain age.
+                Entries may be stored with a timestamp, and deleted after
+                a certain age.
 
 
 Key Agreement
