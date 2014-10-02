@@ -13,7 +13,8 @@
 {{{
 State
 ------
-Each party stores the following values per conversation in persistent storage:
+Each party stores the following values per conversation in persistent
+storage:
 
 RK         : 32-byte root key which gets updated by DH ratchet
 HKs, HKr   : 32-byte header keys (send and recv versions)
