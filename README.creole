@@ -1,8 +1,8 @@
-= Axolotl Ratchet
+= Double Ratchet Algorithm
 
 === Status
 
-Better documentation of this protocol is forthcoming.  The below description is lacking details needed for a complete implementation.  Also, an initial key agreement phase is given for example purposes, but this should not be considered part of the core algorithm.
+Better documentation of this algorithm is forthcoming.  The below description is lacking details needed for a complete implementation.
 
 === Goals
 * Combine the forward-secrecy of symmetric-key updating with the "future-secrecy" of an OTR-like Diffie-Hellman ratchet.
@@ -24,7 +24,6 @@ RK         : 32-byte root key which gets updated by DH ratchet
 HKs, HKr   : 32-byte header keys (send and recv versions)
 NHKs, NHKr : 32-byte next header keys (")
 CKs, CKr   : 32-byte chain keys (used for forward-secrecy updating)
-DHIs, DHIr : DH or ECDH Identity keys
 DHRs, DHRr : DH or ECDH Ratchet keys
 Ns, Nr     : Message numbers (reset to 0 with each new ratchet)
 PNs        : Previous message numbers (# of msgs sent under prev ratchet)
@@ -36,23 +35,19 @@ skipped_HK_MK : A list of stored message keys and associated header keys
                 a certain age.
 
 
-Key Agreement
+Initialization
 --------------
- - Parties exchange identity keys (A, B) and handshake keys (A0, A1) and (B0, B1)
- - Parties assign "Alice" and "Bob" roles by comparing public keys
- - Parties calculate master key using tripleDH:
-   - master_key = HASH( DH(A, B0) || DH(A0, B) || DH(A0, B0) )
+master_key : shared secret between Alice and Bob
+B1         : Bob's initial DH ratchet key
 
 Alice:
   KDF from master_key: RK, HKs=<none>, HKr, NHKs, NHKr, CKs=<none>, CKr
-  DHIs, DHIr = A, B
   DHRs, DHRr = <none>, B1
   Ns, Nr = 0, 0
   PNs = 0
   ratchet_flag = True
 Bob:
   KDF from master_key: RK, HKr=<none>, HKs, NHKr, NHKs, CKr=<none>, CKs
-  DHIs, DHIr = B, A
   DHRs, DHRr = B1, <none>
   Ns, Nr = 0, 0
   PNs = 0
@@ -142,19 +137,16 @@ return read()
  * Header encryption may be omitted if the underlying transport is already leaking metadata, and space is at a premium.
  ** In that case, the presence of a new ratchet key signals the recipient that the DH ratchet is advancing (instead of using encryption by the next header key as the signal).  
  ** Instead of storing old header keys for skipped messages, old ratchet keys can be used to recognize delayed messages.
- * Depending on how the key agreement is performed, it may be possible to omit the A1 and/or B1 keys.
- ** If a party knows she is the initiator (Alice) prior to sending her key agreement message, then she doesn't need to send the extra (A1) key, as it is unused.
- ** If Bob doesn't plan to send any messages prior to receiving Alice's first message, B1 can be omitted and both parties can set B1 equal to B0 with no loss of security.
  * The chain keys could be updated on a time basis as well as a per-message basis.  
  ** For example: If 24 hours elapse without receiving a message, you might wish to move to the next chain key in case there's an intercepted message you're unaware of.
 
 === IPR
 
-The Axolotl specification (this wiki) is hereby placed in the public domain.
+The Double Ratchet specification (this wiki) is hereby placed in the public domain.
 
 === Feedback
 
-Can be sent to axolotl at trevp.net
+Can be sent to github at trevp.net
 
 === Acknowledgements
 
